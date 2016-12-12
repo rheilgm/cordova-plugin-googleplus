@@ -1,0 +1,51 @@
+lipo -info GoogleUtilities
+# armv7 i386 x86_64 arm64
+1. lipo -thin armv7 GoogleUtilities -output GoogleUtilities-armv7
+2. lipo -thin i386 GoogleUtilities -output GoogleUtilities-i386
+3. lipo -thin x86_64 GoogleUtilities -output GoogleUtilities-x86_64
+4. lipo -thin arm64 GoogleUtilities -output GoogleUtilities-arm64
+5. ar -t GoogleUtilities-armv7
+6. ar -t GoogleUtilities-i386
+7. ar -t GoogleUtilities-x86_64
+8. ar -t GoogleUtilities-arm64
+
+mkdir GoogleUtilities-armv7a
+cd GoogleUtilities-armv7a
+ar -x ../GoogleUtilities-armv7
+
+mkdir GoogleUtilities-i386a
+cd GoogleUtilities-i386a
+ar -x ../GoogleUtilities-i386
+
+mkdir GoogleUtilities-x86_64a
+cd GoogleUtilities-x86_64a
+ar -x ../GoogleUtilities-x86_64
+
+mkdir GoogleUtilities-arm64a
+cd GoogleUtilities-arm64a
+ar -x ../GoogleUtilities-arm64
+
+rm GTMABAddressBook.o
+rm GTMFadeTruncatingLabel.o
+rm GTMGatherInputStream.o
+rm GTMLogger.o
+rm GTMMIMEDocument.o
+rm GTMNSObject+KeyValueObserving.o
+rm GTMReadMonitorInputStream.o
+rm GTMRegex.o
+rm GTMSessionFetcher.o
+rm GTMSessionFetcherService.o
+rm GTMSessionUploadFetcher.o
+rm GTMStringEncoding.o
+rm GTMSystemVersion.o
+rm GTMUILocalize.o
+rm GTMURLBuilder.o
+
+libtool -static *.o -o ../GoogleUtilities-armv7
+libtool  -static *.o -o ../GoogleUtilities-i386
+libtool  -static *.o -o ../GoogleUtilities-x86_64
+libtool  -static *.o -o ../GoogleUtilities-arm64
+
+libtool -static GoogleUtilities-armv7 GoogleUtilities-i386 GoogleUtilities-x86_64 -o GoogleUtilitiesCombined
+lipo -create GoogleUtilities-armv7 GoogleUtilities-i386 GoogleUtilities-x86_64 GoogleUtilities-arm64 -o GoogleUtilities
+lipo -create GoogleUtilities-armv7 GoogleUtilities-arm64 -o GoogleUtilities2
